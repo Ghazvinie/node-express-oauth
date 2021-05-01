@@ -54,7 +54,7 @@ app.get('/authorize', (request, response) => {
 	if (request.query.client_Id === clients.clientId){
 		response.send(200);
 	}else {
-		response.send(200);
+		response.send(401);
 	}
 });
 
