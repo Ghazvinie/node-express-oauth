@@ -74,13 +74,12 @@ app.get("/authorize", (req, res) => {
 });
 
 app.post('/approve', (req, res) => {
-	const userName = req.body.userName;
-	const password = req.body.password;
+	const { userName, password } = req.body.userName;
 
-	if (users[userName] === password){
-		res.status(200);
-	} else {
+	if (!userName || users[userName] === password){
 		res.status(401);
+	} else {
+		res.status(200);
 	}
 });
 
