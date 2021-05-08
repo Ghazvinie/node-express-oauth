@@ -74,12 +74,14 @@ app.get("/authorize", (req, res) => {
 });
 
 app.post('/approve', (req, res) => {
-	const { userName, password } = req.body.userName;
+	const { userName, password, requestId } = req.body.userName;
 
 	if (!userName || users[userName] !== password){
 		res.status(401).send('Error, user nor authorised');
+		return;
 	} else {
 		res.status(200);
+		return;
 	}
 });
 
