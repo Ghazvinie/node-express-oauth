@@ -76,7 +76,7 @@ app.get("/authorize", (req, res) => {
 app.post('/approve', (req, res) => {
 	const { userName, password } = req.body.userName;
 
-	if (!userName || users[userName] === password){
+	if (!userName || users[userName] !== password){
 		res.status(401).send('Error, user nor authorised');
 	} else {
 		res.status(200);
