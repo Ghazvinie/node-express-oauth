@@ -53,6 +53,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/authorize', (request, response) => {
 	const clientId = request.query.client_Id;
 	const clientExists = Object.keys(clients).find(element => element === clientId);
+	if (!clientId) {
+		response.status(401).send('Error, client not authorised');
+		return;
+	}
 	if (!clientExists) {
 		response.status(401).send('Error, client not authorised');
 		return;
