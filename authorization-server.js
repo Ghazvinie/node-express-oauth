@@ -73,6 +73,17 @@ app.get("/authorize", (req, res) => {
 	});
 });
 
+app.post('/approve', (req, res) => {
+	const userName = req.body.userName;
+	const password = req.body.password;
+
+	if (users[userName] === password){
+		res.status(200);
+	} else {
+		res.status(401);
+	}
+});
+
 const server = app.listen(config.port, "localhost", function () {
 	var host = server.address().address;
 	var port = server.address().port;
