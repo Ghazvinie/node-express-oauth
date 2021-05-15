@@ -74,15 +74,26 @@ app.get("/authorize", (req, res) => {
 });
 
 app.post('/approve', (req, res) => {
-	const { userName, password, requestId } = req.body.userName;
-
-	if (!userName || users[userName] !== password){
-		res.status(401).send('Error, user nor authorised');
-		return;
-	} else {
-		res.status(200);
+	const { userName, password, requestId } = req.body;
+	if (!userName || users[userName] !== password) {
+		res.status(401).send("Error: user not authorized");
 		return;
 	}
+	const clientReq = requests[requestId];
+	delete requests[requestId];
+	if (!clientReq) {
+		res.status(401).send("Error: invalid user request");
+		return;
+	}
+	const key = randomString();
+	authorizationCodes[key] = {
+		clientReq,
+		userName
+	};
+	const uri = clientReq.redirect_uri;
+	uri.searchParams.append('code',key);
+	uri.searchParams.append('state', clientReq.state);
+	res.redirect(uri);
 });
 
 const server = app.listen(config.port, "localhost", function () {
